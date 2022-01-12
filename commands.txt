@@ -1,0 +1,5 @@
+compiles app to a stand alone exe
+python -m nuitka --onefile --enable-plugin=pyside6 --windows-disable-console widget.py
+
+converts .ui file to py file
+ pyside6-uic form.ui > form.py
