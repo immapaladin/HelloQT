@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFrame, QHBoxLayout,
-    QLabel, QLineEdit, QPushButton, QSizePolicy,
-    QTextBrowser, QTextEdit, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QFrame,
+    QHBoxLayout, QLabel, QLineEdit, QPushButton,
+    QSizePolicy, QTextBrowser, QTextEdit, QWidget)
 
 class Ui_Widget(object):
     def setupUi(self, Widget):
@@ -30,7 +30,7 @@ class Ui_Widget(object):
 "")
         self.frame = QFrame(Widget)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(250, 80, 251, 101))
+        self.frame.setGeometry(QRect(260, 40, 251, 141))
         self.frame.setCursor(QCursor(Qt.ArrowCursor))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
@@ -46,6 +46,14 @@ class Ui_Widget(object):
         self.label_name = QLabel(self.frame)
         self.label_name.setObjectName(u"label_name")
         self.label_name.setGeometry(QRect(10, 60, 81, 16))
+        self.comboBox = QComboBox(self.frame)
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setGeometry(QRect(100, 110, 131, 24))
+        self.label_dep = QLabel(self.frame)
+        self.label_dep.setObjectName(u"label_dep")
+        self.label_dep.setGeometry(QRect(10, 110, 81, 16))
         self.line = QFrame(Widget)
         self.line.setObjectName(u"line")
         self.line.setGeometry(QRect(210, 190, 341, 16))
@@ -103,6 +111,9 @@ class Ui_Widget(object):
         self.textBrowser.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.textBrowser.setLineWrapMode(QTextEdit.WidgetWidth)
         self.textBrowser.setLineWrapColumnOrWidth(0)
+        self.label_version = QLabel(Widget)
+        self.label_version.setObjectName(u"label_version")
+        self.label_version.setGeometry(QRect(10, 10, 71, 16))
 
         self.retranslateUi(Widget)
 
@@ -121,6 +132,11 @@ class Ui_Widget(object):
         self.text_pnum.setInputMask(QCoreApplication.translate("Widget", u"99-9999-999", None))
         self.text_pnum.setText(QCoreApplication.translate("Widget", u"22-0000-000", None))
         self.label_name.setText(QCoreApplication.translate("Widget", u"Survey Name", None))
+        self.comboBox.setItemText(0, QCoreApplication.translate("Widget", u"GIS", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("Widget", u"Muni", None))
+
+        self.comboBox.setCurrentText(QCoreApplication.translate("Widget", u"GIS", None))
+        self.label_dep.setText(QCoreApplication.translate("Widget", u"Department", None))
 #if QT_CONFIG(tooltip)
         self.btn_upload.setToolTip(QCoreApplication.translate("Widget", u"<html><head/><body><p><span style=\" color:#000000;\">create folder and upload data. if folder exists just upload data</span></p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
@@ -141,5 +157,6 @@ class Ui_Widget(object):
         self.btn_mjf.setToolTip(QCoreApplication.translate("Widget", u"<html><head/><body><p><span style=\" color:#000000;\">select survey job file</span></p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.btn_mjf.setText(QCoreApplication.translate("Widget", u"MJF", None))
+        self.label_version.setText(QCoreApplication.translate("Widget", u"Version 0.3", None))
     # retranslateUi
 

@@ -26,7 +26,8 @@ class Widget(QWidget, Ui_Widget):
         self.ui = Ui_Widget()
         self.ui.setupUi(self)
         self.ui.btn_upload.clicked.connect(
-            lambda: self.make_survey_folders(self.ui.text_pnum.text(), self.ui.text_name.text()))
+            lambda: self.make_survey_folders(self.ui.text_pnum.text(), self.ui.text_name.text(),
+                                             self.ui.comboBox.currentText()))
         self.ui.btn_mjf.clicked.connect(lambda: self.mjf_file())
         self.ui.btn_static.clicked.connect(lambda: self.static_files())
         self.ui.btn_notes.clicked.connect(lambda: self.note_files())
@@ -49,6 +50,8 @@ class Widget(QWidget, Ui_Widget):
         :return: a list of all selected files
         """
         self.mjf_name = QFileDialog.getOpenFileNames(self, 'Open file', 'c:\\', "MJF files (*.mjf)")
+        self.ui.textBrowser.append("mjf files selected:")
+        self.print_items(self.mjf_name)
         return
 
     def images_files(self):
@@ -67,6 +70,8 @@ class Widget(QWidget, Ui_Widget):
         :return:  a list of all selected file
         """
         self.static_name = QFileDialog.getOpenFileNames(self, 'Open file', 'c:\\', "Static files (*.tps)")
+        self.ui.textBrowser.append("Static files selected:")
+        self.print_items(self.static_name)
         return
 
     def note_files(self):
@@ -76,6 +81,8 @@ class Widget(QWidget, Ui_Widget):
         """
         self.note_name = QFileDialog.getOpenFileNames(self, 'Open file', 'c:\\',
                                                       "Note files (*.jpg *.jpeg *.pdf *.png)")
+        self.ui.textBrowser.append("Note files selected:")
+        self.print_items(self.note_name)
         return
 
     def copy_files(self):
@@ -143,17 +150,18 @@ class Widget(QWidget, Ui_Widget):
 
     # main function to upload data
 
-    def make_survey_folders(self, p_num, survey_name):
+    def make_survey_folders(self, p_num, survey_name, depart):
         # checks if project and survey folder exist
         year = p_num[:2]
+        print(depart)
         if len(survey_name) == 0 or len(p_num) == 0:
             result = "Survey name or Project number can't be empty "
             self.oops(result)
             return
-        elif os.path.exists(fr"C:\Projects\20{year}\{p_num}\Design\GIS\SURVEY"):
-            self.project = fr"C:\Projects\20{year}\{p_num}\Design\GIS\SURVEY"
-        elif os.path.exists(fr"R:\Projects\20{year}\{p_num}\Design\GIS\SURVEY"):
-            self.project = fr"R:\Projects\20{year}\{p_num}\Design\GIS\SURVEY"
+        elif os.path.exists(fr"C:\Projects\20{year}\{p_num}\Design\{depart}\SURVEY"):
+            self.project = fr"C:\Projects\20{year}\{p_num}\Design\{depart}\SURVEY"
+        elif os.path.exists(fr"R:\Projects\20{year}\{p_num}\Design\{depart}\SURVEY"):
+            self.project = fr"R:\Projects\20{year}\{p_num}\Design\{depart}\SURVEY"
         else:
             self.project = ""
         # if survey folder already exists, just copy files and do not create folders
@@ -173,14 +181,14 @@ class Widget(QWidget, Ui_Widget):
             export_folders = ["NAMENEZCODE", "SHP"]
             raw_folders = ["RTK", "STATIC"]
 
-            for i in survey_folders:
-                os.makedirs(os.path.join(parent_dir, i))
+            for s_folders in survey_folders:
+                os.makedirs(os.path.join(parent_dir, s_folders))
 
-            for x in export_folders:
-                os.makedirs(os.path.join(parent_dir, survey_folders[0], x))
+            for e_folders in export_folders:
+                os.makedirs(os.path.join(parent_dir, survey_folders[0], e_folders))
 
-            for y in raw_folders:
-                os.makedirs(os.path.join(parent_dir, survey_folders[2], y))
+            for r_folders in raw_folders:
+                os.makedirs(os.path.join(parent_dir, survey_folders[2], r_folders))
             # checks if a file has been selected for each type.
             self.copy_files()
             # adds output message to text browser
